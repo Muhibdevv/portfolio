@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Muhib Ullah — Frontend Developer</title>
+  <meta name="description" content="Muhib Ullah — Frontend Developer at Consecutive Bytes. Building high-performance, scalable UI systems for UK enterprise clients." />
+  <meta name="author" content="Muhib Ullah" />
+  <meta property="og:title" content="Muhib Ullah — Frontend Developer" />
+  <meta property="og:description" content="High-performance web interfaces for UK enterprise clients. GSAP, TypeScript, scalable UI systems." />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="/portfolio.css">
+</head>
+<body data-theme="dark">
+
+  <!-- gradient mesh background -->
+  <div class="bg-mesh" aria-hidden="true">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    <div class="grid-overlay"></div>
+    <div class="noise"></div>
+  </div>
+
+  <!-- custom cursor -->
+  <div class="cursor-dot" aria-hidden="true"></div>
+  <div class="cursor-ring" aria-hidden="true"></div>
+
+  <!-- scroll progress -->
+  <div class="scroll-progress" aria-hidden="true"><span></span></div>
+
+  <!-- nav -->
+  <header class="nav glass">
+    <a href="#hero" class="brand">
+      <span class="brand-dot"></span>
+      <span class="brand-name">muhib<span class="accent">.</span>dev</span>
+    </a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="#about" data-magnetic>About</a>
+      <a href="#skills" data-magnetic>Skills</a>
+      <a href="#experience" data-magnetic>Experience</a>
+      <a href="#projects" data-magnetic>Projects</a>
+      <a href="#contact" data-magnetic>Contact</a>
+    </nav>
+    <button class="theme-toggle" aria-label="Toggle theme" id="themeToggle">
+      <svg class="ico-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+      <svg class="ico-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section id="hero" class="hero">
+      <div class="hero-inner">
+        <div class="hero-tag glass-sm reveal">
+          <span class="pulse-dot"></span>
+          Available for select frontend collaborations
+        </div>
+        <h1 class="hero-name reveal-stagger">
+          <span>Muhib</span>
+          <span class="hero-name-accent">Ullah</span>
+        </h1>
+        <p class="hero-role reveal">
+          Frontend Developer crafting <span class="type" id="typeTarget"></span><span class="caret">&nbsp;</span>
+        </p>
+        <p class="hero-sub reveal">
+          Specialized in scalable UI systems for UK enterprise clients —
+          performance-engineered, pixel-disciplined, production-grade.
+        </p>
+        <div class="hero-cta reveal">
+          <a href="#projects" class="btn btn-primary" data-magnetic>
+            <span>View Projects</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <a href="#contact" class="btn btn-ghost" data-magnetic>Contact Me</a>
+        </div>
+
+        <div class="hero-stats reveal">
+          <div><strong>40–70%</strong><span>perf gains</span></div>
+          <div><strong>UK</strong><span>enterprise clients</span></div>
+          <div><strong>60fps</strong><span>UI baseline</span></div>
+          <div><strong>0</strong><span>CLS target</span></div>
+        </div>
+      </div>
+
+      <div class="scroll-hint" aria-hidden="true">
+        <span>scroll</span>
+        <div class="line"></div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="section">
+      <div class="section-head">
+        <span class="section-num">01</span>
+        <h2 class="section-title reveal">About</h2>
+      </div>
+      <div class="about-grid">
+        <div class="about-copy reveal">
+          <p class="lead">
+            I build high-performance, visually refined web interfaces for
+            enterprise-level UK clients at <strong>Consecutive Bytes</strong>.
+          </p>
+          <p>
+            My focus is the intersection of speed, UX precision and maintainable
+            architecture — shipping traffic-heavy applications that stay smooth
+            under load. I treat the browser like a performance budget, not a canvas.
+          </p>
+          <p>
+            Currently expanding into backend systems with <strong>Go</strong>,
+            while keeping my craft anchored in elite frontend execution.
+          </p>
+        </div>
+        <aside class="about-card glass reveal">
+          <div class="meta-row"><span>Role</span><strong>Frontend Developer</strong></div>
+          <div class="meta-row"><span>Company</span><strong>Consecutive Bytes</strong></div>
+          <div class="meta-row"><span>Focus</span><strong>Enterprise UI Systems</strong></div>
+          <div class="meta-row"><span>Region</span><strong>UK Clients</strong></div>
+          <div class="meta-row"><span>Now Learning</span><strong>Go (Backend)</strong></div>
+          <div class="meta-row"><span>Status</span><strong class="status">● Building</strong></div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills" class="section">
+      <div class="section-head">
+        <span class="section-num">02</span>
+        <h2 class="section-title reveal">Skills</h2>
+      </div>
+      <div class="skills-grid" id="skillsGrid">
+        <!-- injected by JS -->
+      </div>
+    </section>
+
+    <!-- EXPERIENCE -->
+    <section id="experience" class="section">
+      <div class="section-head">
+        <span class="section-num">03</span>
+        <h2 class="section-title reveal">Experience</h2>
+      </div>
+      <div class="exp-card glass reveal">
+        <div class="exp-head">
+          <div>
+            <h3>Frontend Developer</h3>
+            <p class="exp-company">Consecutive Bytes · UK Enterprise Clients</p>
+          </div>
+          <span class="exp-badge">Current</span>
+        </div>
+        <ul class="exp-list">
+          <li>Architect scalable UI systems for enterprise products.</li>
+          <li>Optimize performance for high-traffic, latency-sensitive apps.</li>
+          <li>Deliver pixel-perfect, fully responsive interfaces.</li>
+          <li>Ensure cross-browser and cross-device consistency.</li>
+        </ul>
+        <div class="impact-grid">
+          <div class="impact"><strong>40–70%</strong><span>UI performance improvement</span></div>
+          <div class="impact"><strong>Stable</strong><span>under enterprise traffic load</span></div>
+          <div class="impact"><strong>↓ Bottlenecks</strong><span>via render optimization</span></div>
+          <div class="impact"><strong>↑ Conversion</strong><span>through refined UX flows</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects" class="section">
+      <div class="section-head">
+        <span class="section-num">04</span>
+        <h2 class="section-title reveal">Selected Work</h2>
+      </div>
+      <div class="projects-grid" id="projectsGrid"></div>
+    </section>
+
+    <!-- PHILOSOPHY -->
+    <section id="philosophy" class="section philosophy">
+      <div class="section-head">
+        <span class="section-num">05</span>
+        <h2 class="section-title reveal">Philosophy</h2>
+      </div>
+      <div class="quotes">
+        <p class="quote reveal">Performance <em>is</em> design.</p>
+        <p class="quote reveal">Every pixel must justify its existence.</p>
+        <p class="quote reveal">Speed is the foundation of UX.</p>
+        <p class="quote reveal">Minimal UI. Maximum clarity.</p>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="section">
+      <div class="section-head">
+        <span class="section-num">06</span>
+        <h2 class="section-title reveal">Contact</h2>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-copy reveal">
+          <h3>Let's build something fast.</h3>
+          <p>For enterprise frontend engagements, performance audits, or just a good engineering conversation.</p>
+          <a class="contact-mail" href="mailto:muhib.devv@gmail.com" data-magnetic>
+            muhib.devv@gmail.com
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 17L17 7M9 7h8v8"/></svg>
+          </a>
+        </div>
+        <form class="contact-form glass reveal" id="contactForm" novalidate>
+          <div class="field">
+            <input id="cf-name" type="text" required autocomplete="name" />
+            <label for="cf-name">Name</label>
+          </div>
+          <div class="field">
+            <input id="cf-email" type="email" required autocomplete="email" />
+            <label for="cf-email">Email</label>
+          </div>
+          <div class="field">
+            <textarea id="cf-msg" rows="5" required></textarea>
+            <label for="cf-msg">Message</label>
+          </div>
+          <button type="submit" class="btn btn-primary btn-submit" data-magnetic>
+            <span>Send Message</span>
+            <span class="ripple"></span>
+          </button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span>© <span id="yr"></span> Muhib Ullah</span>
+    <span class="foot-mid">Crafted with discipline. Shipped with intent.</span>
+    <span>muhib.devv@gmail.com</span>
+  </footer>
+
+  <!-- GSAP -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+  <script src="/portfolio.js" defer></script>
+</body>
+</html>
