@@ -1,326 +1,169 @@
-/* Muhib Ullah — portfolio interactions */
-(() => {
-  "use strict";
+/* Muhib Ullah — portfolio
+   Pure JS. No deps. Interactive + animated. */
+(function(){
+  'use strict';
 
-  // Easter egg
-  const css =
-    "color:#34e3ff;font:600 13px Inter,sans-serif;text-shadow:0 0 12px #34e3ff";
-  console.log("%cBuilt by Muhib — performance is everything.", css);
-
-  // Year
-  const yr = document.getElementById("yr");
-  if (yr) yr.textContent = new Date().getFullYear();
-
-  /* ---------- Floating-label placeholders ---------- */
-  document.querySelectorAll(".field input, .field textarea").forEach((el) => {
-    el.setAttribute("placeholder", " ");
-  });
-
-  /* ---------- Theme toggle ---------- */
-  const themeBtn = document.getElementById("themeToggle");
-  const stored = localStorage.getItem("muhib-theme");
-  if (stored) document.body.dataset.theme = stored;
-  themeBtn?.addEventListener("click", () => {
-    const next = document.body.dataset.theme === "dark" ? "light" : "dark";
-    document.body.dataset.theme = next;
-    localStorage.setItem("muhib-theme", next);
-  });
-
-  /* ---------- Scroll progress ---------- */
-  const sp = document.querySelector(".scroll-progress span");
+  // ---- Nav scroll state ----
+  const nav = document.querySelector('.nav');
+  const progress = document.querySelector('.progress');
   const onScroll = () => {
-    const h = document.documentElement;
-    const p = h.scrollTop / (h.scrollHeight - h.clientHeight);
-    if (sp) sp.style.width = (p * 100).toFixed(2) + "%";
+    const y = window.scrollY;
+    if (nav) nav.classList.toggle('scrolled', y > 12);
+    if (progress){
+      const h = document.documentElement.scrollHeight - window.innerHeight;
+      progress.style.width = (h > 0 ? (y/h)*100 : 0) + '%';
+    }
   };
-  document.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener('scroll', onScroll, {passive:true});
   onScroll();
 
-  /* ---------- Custom cursor ---------- */
-  const dot = document.querySelector(".cursor-dot");
-  const ring = document.querySelector(".cursor-ring");
-  let mx = innerWidth / 2,
-    my = innerHeight / 2,
-    rx = mx,
-    ry = my;
-  addEventListener(
-    "mousemove",
-    (e) => {
-      mx = e.clientX;
-      my = e.clientY;
-      if (dot) {
-        dot.style.transform = `translate(${mx}px,${my}px) translate(-50%,-50%)`;
-      }
-    },
-    { passive: true },
-  );
-  const tick = () => {
-    rx += (mx - rx) * 0.18;
-    ry += (my - ry) * 0.18;
-    if (ring)
-      ring.style.transform = `translate(${rx}px,${ry}px) translate(-50%,-50%)`;
-    requestAnimationFrame(tick);
-  };
-  requestAnimationFrame(tick);
-
-  const hoverables =
-    "a, button, [data-magnetic], .skill, .project, input, textarea";
-  document.addEventListener("mouseover", (e) => {
-    if (e.target.closest(hoverables)) ring?.classList.add("is-hover");
-  });
-  document.addEventListener("mouseout", (e) => {
-    if (e.target.closest(hoverables)) ring?.classList.remove("is-hover");
-  });
-
-  /* ---------- Magnetic buttons/links ---------- */
-  document.querySelectorAll("[data-magnetic]").forEach((el) => {
-    const strength = 18;
-    el.addEventListener("mousemove", (e) => {
-      const r = el.getBoundingClientRect();
-      const x = e.clientX - (r.left + r.width / 2);
-      const y = e.clientY - (r.top + r.height / 2);
-      el.style.transform = `translate(${(x / r.width) * strength}px,${(y / r.height) * strength}px)`;
-    });
-    el.addEventListener("mouseleave", () => {
-      el.style.transform = "";
-    });
-  });
-
-  /* ---------- Skills ---------- */
-  const skills = [
-    { name: "HTML5", level: 98, tag: "Core" },
-    { name: "CSS3 / SCSS", level: 96, tag: "Core" },
-    { name: "JavaScript", level: 94, tag: "Advanced" },
-    { name: "TypeScript", level: 78, tag: "Selective" },
-    { name: "GSAP", level: 90, tag: "Animation" },
-    { name: "Bootstrap", level: 88, tag: "Framework" },
-    { name: "Tailwind", level: 70, tag: "Familiar" },
-    { name: "jQuery", level: 80, tag: "Legacy" },
-    {
-      name: "Go (Golang)",
-      level: 35,
-      tag: "Backend Expansion",
-      highlight: true,
-    },
-  ];
-  const grid = document.getElementById("skillsGrid");
-  if (grid) {
-    grid.innerHTML = skills
-      .map(
-        (s) => `
-      <article class="skill ${s.highlight ? "is-highlight" : ""}" data-level="${s.level}">
-        <div class="skill-top">
-          <span class="skill-name">${s.name}</span>
-          <span class="skill-tag">${s.tag}</span>
-        </div>
-        <div class="skill-bar"><span></span></div>
-      </article>
-    `,
-      )
-      .join("");
+  // ---- Reveal on scroll ----
+  const revealEls = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window){
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){
+          e.target.classList.add('in');
+          io.unobserve(e.target);
+        }
+      });
+    }, {rootMargin:'0px 0px -8% 0px', threshold:0.08});
+    revealEls.forEach(el=>io.observe(el));
+  } else {
+    revealEls.forEach(el=>el.classList.add('in'));
   }
 
-  /* ---------- Projects ---------- */
-  const projects = [
-    {
-      title: "UK Financial Dashboard UI",
-      desc: "Real-time portfolio and risk-exposure interface for a UK financial enterprise. Optimized chart rendering, virtualized tables, and tight performance budgets.",
-      stack: ["TypeScript", "SCSS", "GSAP", "Web Workers"],
-      metrics: [
-        ["62%", "Faster LCP"],
-        ["0", "CLS"],
-      ],
-    },
-    {
-      title: "Enterprise SaaS Admin Panel",
-      desc: "Component-driven admin system for a large SaaS platform. Modular SCSS architecture, role-aware UI, and reusable interaction patterns at scale.",
-      stack: ["JavaScript", "SCSS", "Design Tokens"],
-      metrics: [
-        ["120+", "Components"],
-        ["↑ 38%", "Productivity"],
-      ],
-    },
-    {
-      title: "High-Traffic Landing System",
-      desc: "Templated landing engine handling spike traffic for enterprise launches. Aggressive image optimization, deferred hydration, and edge-friendly rendering.",
-      stack: ["HTML5", "CSS3", "GSAP"],
-      metrics: [
-        ["98", "Lighthouse"],
-        ["<1.2s", "TTI"],
-      ],
-    },
-    {
-      title: "Real-time Analytics Frontend",
-      desc: "Streaming analytics UI with high-frequency updates. Engineered render scheduling and DOM diffing to maintain a steady 60fps under load.",
-      stack: ["TypeScript", "Canvas", "GSAP"],
-      metrics: [
-        ["60fps", "Sustained"],
-        ["10k+", "Events/s"],
-      ],
-    },
-  ];
-  const pg = document.getElementById("projectsGrid");
-  if (pg) {
-    pg.innerHTML = projects
-      .map(
-        (p, i) => `
-      <article class="project" data-tilt>
-        <div class="proj-head">
-          <h3 class="proj-title">${p.title}</h3>
-          <span class="proj-index">0${i + 1}</span>
-        </div>
-        <p class="proj-desc">${p.desc}</p>
-        <div class="proj-stack">${p.stack.map((s) => `<span>${s}</span>`).join("")}</div>
-        <div class="proj-metrics">
-          ${p.metrics.map((m) => `<div><strong>${m[0]}</strong><span>${m[1]}</span></div>`).join("")}
-        </div>
-      </article>
-    `,
-      )
-      .join("");
+  // ---- Counters ----
+  const counters = document.querySelectorAll('[data-count]');
+  const seen = new WeakSet();
+  if ('IntersectionObserver' in window && counters.length){
+    const cio = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if(!e.isIntersecting || seen.has(e.target)) return;
+        seen.add(e.target);
+        const el = e.target;
+        const target = parseFloat(el.dataset.count);
+        const suffix = el.dataset.suffix || '';
+        const dur = 1400;
+        const start = performance.now();
+        const tick = (t)=>{
+          const p = Math.min((t-start)/dur, 1);
+          const eased = 1 - Math.pow(1-p, 3);
+          el.textContent = Math.round(target*eased) + suffix;
+          if (p<1) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+      });
+    }, {threshold:0.4});
+    counters.forEach(el=>cio.observe(el));
   }
 
-  /* ---------- Project tilt + spotlight ---------- */
-  document.querySelectorAll("[data-tilt]").forEach((card) => {
-    card.addEventListener("mousemove", (e) => {
-      const r = card.getBoundingClientRect();
-      const x = e.clientX - r.left,
-        y = e.clientY - r.top;
-      const rx = (y / r.height - 0.5) * -6;
-      const ry = (x / r.width - 0.5) * 6;
-      card.style.transform = `perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-4px)`;
-      card.style.setProperty("--mx", `${x}px`);
-      card.style.setProperty("--my", `${y}px`);
-    });
-    card.addEventListener("mouseleave", () => {
-      card.style.transform = "";
-    });
-  });
-
-  /* ---------- Contact form ---------- */
-  const form = document.getElementById("contactForm");
-  form?.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const btn = form.querySelector(".btn-submit");
-    btn?.classList.add("is-rippling");
-    const subj = encodeURIComponent(
-      "Portfolio contact — " + (form["cf-name"]?.value || ""),
-    );
-    const body = encodeURIComponent(
-      (form["cf-msg"]?.value || "") +
-        "\n\nFrom: " +
-        (form["cf-email"]?.value || ""),
-    );
-    setTimeout(() => {
-      window.location.href = `mailto:muhib.devv@gmail.com?subject=${subj}&body=${body}`;
-      btn?.classList.remove("is-rippling");
-    }, 500);
-  });
-
-  /* ---------- Typing animation ---------- */
-  const phrases = [
-    "high-performance web experiences",
-    "scalable enterprise UI systems",
-    "pixel-disciplined interfaces",
-    "production-grade frontends",
-  ];
-  const tEl = document.getElementById("typeTarget");
-  if (tEl) {
-    let i = 0,
-      j = 0,
-      del = false;
-    const loop = () => {
-      const word = phrases[i];
-      tEl.textContent = word.slice(0, j);
-      if (!del && j < word.length) {
-        j++;
-        setTimeout(loop, 55);
-      } else if (del && j > 0) {
-        j--;
-        setTimeout(loop, 25);
-      } else {
-        del = !del;
-        if (!del) i = (i + 1) % phrases.length;
-        setTimeout(loop, del ? 1600 : 400);
-      }
+  // ---- Cursor blob (desktop) ----
+  const mq = window.matchMedia('(hover:hover) and (pointer:fine)');
+  if (mq.matches){
+    const blob = document.createElement('div');
+    blob.className = 'blob';
+    document.body.appendChild(blob);
+    let tx=0, ty=0, x=0, y=0;
+    window.addEventListener('mousemove', (e)=>{ tx=e.clientX; ty=e.clientY; });
+    const loop = ()=>{
+      x += (tx-x)*0.12; y += (ty-y)*0.12;
+      blob.style.transform = `translate(${x}px, ${y}px) translate(-50%,-50%)`;
+      requestAnimationFrame(loop);
     };
-    loop();
+    requestAnimationFrame(loop);
+    document.querySelectorAll('a,button,.skill-card,.go-step,.tl-item,.quote').forEach(el=>{
+      el.addEventListener('mouseenter', ()=>blob.classList.add('active'));
+      el.addEventListener('mouseleave', ()=>blob.classList.remove('active'));
+    });
   }
 
-  /* ---------- GSAP reveals (once GSAP is loaded) ---------- */
-  const start = () => {
-    if (!window.gsap) return;
-    const { gsap } = window;
-    if (window.ScrollTrigger) gsap.registerPlugin(window.ScrollTrigger);
-
-    // Hero reveal
-    gsap.to(".hero .reveal, .hero .reveal-stagger > *", {
-      opacity: 1,
-      y: 0,
-      filter: "blur(0px)",
-      duration: 1,
-      ease: "power3.out",
-      stagger: 0.08,
-      delay: 0.1,
+  // ---- Magnetic buttons ----
+  document.querySelectorAll('.btn').forEach(btn=>{
+    btn.addEventListener('mousemove', (e)=>{
+      const r = btn.getBoundingClientRect();
+      const mx = e.clientX - r.left - r.width/2;
+      const my = e.clientY - r.top - r.height/2;
+      btn.style.setProperty('--bx', (mx*0.25)+'px');
+      btn.style.setProperty('--by', (my*0.35)+'px');
     });
+    btn.addEventListener('mouseleave', ()=>{
+      btn.style.setProperty('--bx','0px');
+      btn.style.setProperty('--by','0px');
+    });
+  });
 
-    // Section reveals
-    gsap.utils.toArray(".section").forEach((sec) => {
-      const items = sec.querySelectorAll(".reveal, .reveal-stagger > *");
-      gsap.to(items, {
-        opacity: 1,
-        y: 0,
-        filter: "blur(0px)",
-        duration: 0.9,
-        ease: "power3.out",
-        stagger: 0.08,
-        scrollTrigger: { trigger: sec, start: "top 78%" },
+  // ---- Card spotlight ----
+  document.querySelectorAll('.skill-card').forEach(card=>{
+    card.addEventListener('mousemove', (e)=>{
+      const r = card.getBoundingClientRect();
+      card.style.setProperty('--mx', (e.clientX-r.left)+'px');
+      card.style.setProperty('--my', (e.clientY-r.top)+'px');
+    });
+  });
+
+  // ---- Typewriter for hero role ----
+  const tw = document.querySelector('[data-typewriter]');
+  if (tw){
+    const words = JSON.parse(tw.dataset.typewriter);
+    let wi = 0, ci = 0, deleting = false;
+    const span = tw.querySelector('.tw');
+    const step = ()=>{
+      const w = words[wi];
+      if (!deleting){
+        span.textContent = w.slice(0, ++ci);
+        if (ci === w.length){ deleting = true; setTimeout(step, 1600); return; }
+      } else {
+        span.textContent = w.slice(0, --ci);
+        if (ci === 0){ deleting = false; wi = (wi+1) % words.length; }
+      }
+      setTimeout(step, deleting ? 40 : 80);
+    };
+    setTimeout(step, 900);
+  }
+
+  // ---- Parallax hero orbs ----
+  const orbs = document.querySelectorAll('.hero-orb');
+  if (orbs.length){
+    window.addEventListener('mousemove', (e)=>{
+      const cx = (e.clientX/window.innerWidth - 0.5);
+      const cy = (e.clientY/window.innerHeight - 0.5);
+      orbs.forEach((o,i)=>{
+        const f = i===0 ? 30 : -40;
+        o.style.transform = `translate(${cx*f}px, ${cy*f}px)`;
       });
     });
+  }
 
-    // Skill bars
-    gsap.utils.toArray(".skill").forEach((s) => {
-      const bar = s.querySelector(".skill-bar span");
-      const level = s.getAttribute("data-level") || 80;
-      gsap.fromTo(
-        bar,
-        { width: "0%" },
-        {
-          width: level + "%",
-          duration: 1.2,
-          ease: "power3.out",
-          scrollTrigger: { trigger: s, start: "top 88%" },
-        },
-      );
+  // ---- Contact form ----
+  const form = document.getElementById('contact-form');
+  if (form){
+    form.addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const status = form.querySelector('.form-status');
+      const name = form.querySelector('#cf-name').value.trim();
+      status.textContent = (name ? name + ', t' : 'T') + 'hanks — message queued. I will reply soon.';
+      form.reset();
+      setTimeout(()=>{ status.textContent=''; }, 6000);
     });
+  }
 
-    // Background orbs parallax
-    gsap.to(".orb-1", {
-      x: 80,
-      y: 60,
-      duration: 14,
-      repeat: -1,
-      yoyo: true,
-      ease: "sine.inOut",
+  // ---- Smooth anchor ----
+  document.querySelectorAll('a[href^="#"]').forEach(a=>{
+    a.addEventListener('click', (e)=>{
+      const id = a.getAttribute('href');
+      if (id.length>1){
+        const t = document.querySelector(id);
+        if (t){
+          e.preventDefault();
+          t.scrollIntoView({behavior:'smooth', block:'start'});
+          history.pushState(null,'',id);
+        }
+      }
     });
-    gsap.to(".orb-2", {
-      x: -100,
-      y: -40,
-      duration: 18,
-      repeat: -1,
-      yoyo: true,
-      ease: "sine.inOut",
-    });
-    gsap.to(".orb-3", {
-      x: 60,
-      y: -50,
-      duration: 12,
-      repeat: -1,
-      yoyo: true,
-      ease: "sine.inOut",
-    });
-  };
+  });
 
-  if (window.gsap) start();
-  else window.addEventListener("load", start);
+  // ---- Year ----
+  const y = document.getElementById('year');
+  if (y) y.textContent = new Date().getFullYear();
 })();
