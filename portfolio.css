@@ -360,10 +360,6 @@ section {
   animation: rise .9s cubic-bezier(.2, .7, .1, 1) forwards
 }
 
-.hero h1 .line:nth-child(2) span {
-  animation-delay: .12s
-}
-
 @keyframes rise {
   to {
     transform: translateY(0)
