@@ -42,7 +42,7 @@ The goal is to keep everything lightweight while still feeling premium and visua
 ## 📁 Project Structure
 
 portfolio/  
-├── portfolio.html (Main page)  
+├── index.html (Main page)  
 ├── portfolio.css (All styles and animations)  
 ├── portfolio.js (All interactivity)  
 
